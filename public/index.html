@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Replicate Image Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Replicate Image Generator</h1>
+  <div class="main-container">
+
+    <!-- Center Container -->
+    <div class="center-container">
+      <!-- Output -->
+      <div id="loading" style="display: none;">
+        <img src="loading.gif" alt="Loading...">
+      </div>
+      <div id="output"></div>
+
+      <!-- Generate Image Button -->
+      <button type="submit" form="generate-form">Generate Image</button>
+    </div>
+
+    <!-- Right Container -->
+    <div class="right-container">
+      <form id="generate-form">
+
+        <!-- Prompt Input Method -->
+        <div class="control-group">
+          <label>Prompt Input Method:</label>
+          <div class="toggle-container">
+            <input type="radio" id="manual-prompt" name="prompt-method" value="manual" checked>
+            <label for="manual-prompt">Manual</label>
+            <input type="radio" id="guided-prompt" name="prompt-method" value="guided">
+            <label for="guided-prompt">Guided</label>
+          </div>
+        </div>
+
+        <!-- Manual Prompt Input -->
+        <div class="control-group" id="manual-prompt-group">
+          <label for="prompt">Prompt:</label>
+          <input type="text" id="prompt" name="prompt" data-tooltip="Describe in detail what you want the image to depict.">
+        </div>
+
+        <!-- Guided Prompt Builder -->
+        <h2>Guided Prompt Builder</h2>
+        <div id="guided-prompt-container">
+          <!-- Scenes -->
+          <div class="prompt-section">
+            <h3>Scene</h3>
+            <select id="scene">
+              <option value="">Select a scene</option>
+              <option value="urban cityscape">Urban Cityscape</option>
+              <option value="beach sunset">Beach Sunset</option>
+              <option value="mountain landscape">Mountain Landscape</option>
+              <option value="forest path">Forest Path</option>
+            </select>
+          </div>
+
+          <!-- Camera Position -->
+          <div class="prompt-section">
+            <h3>Camera Position</h3>
+            <select id="camera-position">
+              <option value="">Select a camera position</option>
+              <option value="front view">Front View</option>
+              <option value="back view">Back View</option>
+              <option value="left side view">Left Side View</option>
+              <option value="right side view">Right Side View</option>
+              <option value="top view">Top View</option>
+            </select>
+          </div>
+
+          <!-- Clothes Section (Clickable) -->
+          <div class="prompt-section">
+            <h3 class="collapsible">Clothes</h3>
+            <div class="clothing-container">
+              <!-- Clothing Categories -->
+              <div class="clothing-category">
+                <label for="pants">Pants:</label>
+                <select id="pants">
+                  <option value="">Select pants</option>
+                  <option value="jeans">Jeans</option>
+                  <option value="shorts">Shorts</option>
+                  <option value="slacks">Slacks</option>
+                  <option value="skirt">Skirt</option>
+                </select>
+              </div>
+              <div class="clothing-category">
+                <label for="shirts">Shirts:</label>
+                <select id="shirts">
+                  <option value="">Select shirt</option>
+                  <option value="t-shirt">T-Shirt</option>
+                  <option value="blouse">Blouse</option>
+                  <option value="sweater">Sweater</option>
+                  <option value="jacket">Jacket</option>
+                </select>
+              </div>
+              <div class="clothing-category">
+                <label for="shoes">Shoes:</label>
+                <select id="shoes">
+                  <option value="">Select shoes</option>
+                  <option value="sneakers">Sneakers</option>
+                  <option value="boots">Boots</option>
+                  <option value="sandals">Sandals</option>
+                  <option value="dress shoes">Dress Shoes</option>
+                </select>
+              </div>
+              <div class="clothing-category">
+                <label for="headwear">Headwear:</label>
+                <select id="headwear">
+                  <option value="">Select headwear</option>
+                  <option value="baseball cap">Baseball Cap</option>
+                  <option value="beanie">Beanie</option>
+                  <option value="fedora">Fedora</option>
+                  <option value="helmet">Helmet</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gaze Direction -->
+          <div class="prompt-section">
+            <h3>Gaze Direction</h3>
+            <div class="gaze-options">
+              <!-- Gaze direction buttons -->
+              <button type="button" class="gaze-option" data-value="looking at camera">At Camera</button>
+              <button type="button" class="gaze-option" data-value="looking left">Looking Left</button>
+              <button type="button" class="gaze-option" data-value="looking right">Looking Right</button>
+              <button type="button" class="gaze-option" data-value="looking up">Looking Up</button>
+              <button type="button" class="gaze-option" data-value="looking down">Looking Down</button>
+            </div>
+          </div>
+
+          <!-- Pose -->
+          <div class="prompt-section">
+            <h3>Pose</h3>
+            <select id="pose">
+              <option value="">Select a pose</option>
+              <option value="standing">Standing</option>
+              <option value="sitting">Sitting</option>
+              <option value="walking">Walking</option>
+              <option value="running">Running</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Advanced Settings (Collapsible) -->
+        <h2 class="collapsible">Advanced Settings</h2>
+        <div class="advanced-settings">
+          <!-- Include any missing settings here -->
+          <!-- HF LoRA -->
+          <div class="control-group">
+            <label for="hf_lora">HF LoRA:</label>
+            <input type="text" id="hf_lora" name="hf_lora" value="zarxces/joris" data-tooltip="Enter the name of the Hugging Face LoRA module you want to use.">
+          </div>
+
+          <!-- Seed -->
+          <div class="control-group">
+            <label for="seed">Seed:</label>
+            <input type="number" id="seed" name="seed" placeholder="Optional" data-tooltip="Set a specific seed for reproducible results; leave blank for random.">
+          </div>
+
+          <!-- Number of Outputs -->
+          <div class="control-group">
+            <label for="num_outputs">Number of Outputs:</label>
+            <input type="number" id="num_outputs" name="num_outputs" min="1" max="4" value="1" data-tooltip="Select the number of images to generate (maximum 4).">
+          </div>
+
+          <!-- Inference Steps -->
+          <div class="control-group">
+            <label for="num_inference_steps">Number of Inference Steps:</label>
+            <input type="number" id="num_inference_steps" name="num_inference_steps" min="1" max="50" value="28" data-tooltip="Determines the quality and detail level; more steps may result in better quality but take longer.">
+          </div>
+
+          <!-- Guidance Scale -->
+          <div class="control-group">
+            <label for="guidance_scale">Guidance Scale:</label>
+            <input type="range" id="guidance_scale" name="guidance_scale" min="0" max="10" step="0.1" value="3.5" data-tooltip="Influences how accurately the output follows the prompt; higher values follow the prompt more strictly.">
+          </div>
+
+          <!-- Missing Settings from Left Container -->
+
+          <!-- Output Quality -->
+          <div class="control-group">
+            <label for="output_quality">Output Quality:</label>
+            <input type="number" id="output_quality" name="output_quality" min="1" max="10" value="5" data-tooltip="Adjusts the quality of the output image.">
+          </div>
+
+          <!-- LoRA Scale -->
+          <div class="control-group">
+            <label for="lora_scale">LoRA Scale:</label>
+            <input type="range" id="lora_scale" name="lora_scale" min="0" max="1" step="0.1" value="0.5" data-tooltip="Controls the influence of the LoRA.">
+          </div>
+
+          <!-- Negative Prompt -->
+          <div class="control-group">
+            <label for="negative_prompt">Negative Prompt:</label>
+            <input type="text" id="negative_prompt" name="negative_prompt" placeholder="Optional" data-tooltip="Specify aspects you want to exclude from the image.">
+          </div>
+
+          <!-- Scheduler -->
+          <div class="control-group">
+            <label for="scheduler">Scheduler:</label>
+            <select id="scheduler" name="scheduler" data-tooltip="Select the scheduler for the diffusion process.">
+              <option value="DDIM">DDIM</option>
+              <option value="K_EULER">K_EULER</option>
+              <option value="DPMSolverMultistep">DPMSolverMultistep</option>
+            </select>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

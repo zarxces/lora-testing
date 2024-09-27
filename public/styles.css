@@ -1,0 +1,242 @@
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  background-color: #f0f2f5;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 30px auto;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Center Container */
+.center-container {
+  flex: 0 0 60%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Right Container */
+.right-container {
+  flex: 0 0 40%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+}
+
+/* Generate Image Button in Center Container */
+.center-container button[type="submit"] {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #0069d9;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.center-container button[type="submit"]:hover {
+  background-color: #0053ba;
+}
+
+/* Form Styles */
+#generate-form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.control-group {
+  margin-bottom: 20px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.control-group input[type="text"],
+.control-group input[type="number"],
+.control-group input[type="range"],
+.control-group select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Toggle Container */
+.toggle-container {
+  display: flex;
+  gap: 10px;
+}
+
+.toggle-container input[type="radio"] {
+  display: none;
+}
+
+.toggle-container label {
+  padding: 8px 12px;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toggle-container input[type="radio"]:checked + label {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+/* Guided Prompt Builder Styles */
+.right-container h2 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 22px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.right-container h2.collapsible::after {
+  content: '\25bc';
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right-container h2.collapsible.active::after {
+  content: '\25b2';
+}
+
+.prompt-section {
+  margin-bottom: 20px;
+}
+
+.prompt-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #007bff;
+  cursor: pointer;
+  position: relative;
+}
+
+.prompt-section h3.collapsible::after {
+  content: '\25bc';
+  font-size: 12px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prompt-section h3.collapsible.active::after {
+  content: '\25b2';
+}
+
+.clothing-container {
+  display: none;
+  position: relative;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.clothing-category {
+  margin-bottom: 15px;
+}
+
+.clothing-category label {
+  font-size: 14px;
+  color: #555;
+}
+
+.gaze-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gaze-option {
+  flex: 1 1 calc(33% - 10px);
+  padding: 8px;
+  background-color: #e9ecef;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+}
+
+.gaze-option.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #0062cc;
+}
+
+.advanced-settings {
+  display: none;
+  position: relative;
+  padding-top: 10px;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  .main-container {
+    flex-direction: column;
+  }
+  .center-container,
+  .right-container {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .center-container button[type="submit"] {
+    position: static;
+    transform: none;
+  }
+}
+
+/* Scrollbar Styles */
+.right-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.right-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 123, 255, 0.5);
+  border-radius: 4px;
+}
+
+.right-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 123, 255, 0.7);
+}
