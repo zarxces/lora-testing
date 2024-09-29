@@ -6,8 +6,392 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Replicate Image Generator</h1>
+
+  <div id="training-container" style="position: fixed; top: 10px; left: 10px;">
+    <button id="training-button">Training</button>
+  </div>
+
   <div class="main-container">
+
+    <!-- Control Container -->
+    <div class="control-container">
+      <form id="generate-form">
+        <div class="form-content">
+          <!-- All your existing form content goes here -->
+          <!-- Prompt Input Method -->
+          <div class="control-group">
+            <label>Prompt Input Method:</label>
+            <div class="toggle-container">
+              <input type="radio" id="manual-prompt" name="prompt-method" value="manual" checked>
+              <label for="manual-prompt">Manual</label>
+              <input type="radio" id="guided-prompt" name="prompt-method" value="guided">
+              <label for="guided-prompt">Guided</label>
+              <input type="radio" id="visual-prompt" name="prompt-method" value="visual">
+              <label for="visual-prompt">Visual</label>
+              <input type="radio" id="overige-prompt" name="prompt-method" value="overige">
+              <label for="overige-prompt">Overige</label>
+            </div>
+          </div>
+
+          <!-- Manual Prompt Input -->
+          <div class="control-group" id="manual-prompt-group">
+            <label for="prompt">Prompt:</label>
+            <input type="text" id="prompt" name="prompt" data-tooltip="Describe in detail what you want the image to depict.">
+          </div>
+
+          <!-- Guided Prompt Builder -->
+          <div id="guided-prompt-section">
+            <h2 id="guided-prompt-header">Guided Prompt Builder</h2>
+            <div id="guided-prompt-container" style="display: none;">
+              <!-- Scenes -->
+              <div class="prompt-section">
+                <h3>Scene</h3>
+                <select id="scene">
+                  <option value="">Select a scene</option>
+                  <option value="urban cityscape">Urban Cityscape</option>
+                  <option value="beach sunset">Beach Sunset</option>
+                  <option value="mountain landscape">Mountain Landscape</option>
+                  <option value="forest path">Forest Path</option>
+                  <option value="Dense rainforest with waterfall">Dense rainforest with waterfall</option>
+                  <option value="Bustling city street at night">Bustling city street at night</option>
+                  <option value="Quiet rural village at dawn">Quiet rural village at dawn</option>
+                  <option value="Desert under starry sky">Desert under starry sky</option>
+                  <option value="Underwater coral reef scene">Underwater coral reef scene</option>
+                </select>
+              </div>
+
+              <!-- Camera Position -->
+              <div class="prompt-section">
+                <h3>Camera Position</h3>
+                <select id="camera-position">
+                  <option value="">Select a camera position</option>
+                  <option value="front view">Front View</option>
+                  <option value="back view">Back View</option>
+                  <option value="left side view">Left Side View</option>
+                  <option value="right side view">Right Side View</option>
+                  <option value="top view">Top View</option>
+                  <option value="Low-angle shot">Low-angle shot</option>
+                  <option value="High-angle shot">High-angle shot</option>
+                  <option value="Over-the-shoulder shot">Over-the-shoulder shot</option>
+                  <option value="Wide shot">Wide shot</option>
+                  <option value="Close-up shot">Close-up shot</option>
+                </select>
+              </div>
+
+              <!-- Clothes Section (Clickable) -->
+              <div class="prompt-section">
+                <h3 class="collapsible">Clothes</h3>
+                <div class="clothing-container">
+                  <!-- Clothing Categories -->
+                  <div class="clothing-category">
+                    <label for="pants">Pants:</label>
+                    <select id="pants">
+                      <option value="">Select pants</option>
+                      <option value="jeans">Jeans</option>
+                      <option value="shorts">Shorts</option>
+                      <option value="slacks">Slacks</option>
+                      <option value="skirt">Skirt</option>
+                    </select>
+                  </div>
+                  <div class="clothing-category">
+                    <label for="shirts">Shirts:</label>
+                    <select id="shirts">
+                      <option value="">Select shirt</option>
+                      <option value="t-shirt">T-Shirt</option>
+                      <option value="blouse">Blouse</option>
+                      <option value="sweater">Sweater</option>
+                      <option value="jacket">Jacket</option>
+                    </select>
+                  </div>
+                  <div class="clothing-category">
+                    <label for="shoes">Shoes:</label>
+                    <select id="shoes">
+                      <option value="">Select shoes</option>
+                      <option value="sneakers">Sneakers</option>
+                      <option value="boots">Boots</option>
+                      <option value="sandals">Sandals</option>
+                      <option value="dress shoes">Dress Shoes</option>
+                    </select>
+                  </div>
+                  <div class="clothing-category">
+                    <label for="headwear">Headwear:</label>
+                    <select id="headwear">
+                      <option value="">Select headwear</option>
+                      <option value="baseball cap">Baseball Cap</option>
+                      <option value="beanie">Beanie</option>
+                      <option value="fedora">Fedora</option>
+                      <option value="helmet">Helmet</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Gaze Direction -->
+              <div class="prompt-section">
+                <h3>Gaze Direction</h3>
+                <div class="gaze-options">
+                  <!-- Gaze direction buttons -->
+                  <button type="button" class="gaze-option" data-value="looking at camera">At Camera</button>
+                  <button type="button" class="gaze-option" data-value="looking left">Looking Left</button>
+                  <button type="button" class="gaze-option" data-value="looking right">Looking Right</button>
+                  <button type="button" class="gaze-option" data-value="looking up">Looking Up</button>
+                  <button type="button" class="gaze-option" data-value="looking down">Looking Down</button>
+                  <button type="button" class="gaze-option" data-value="Looking upwards">Looking upwards</button>
+                  <button type="button" class="gaze-option" data-value="Looking downwards">Looking downwards</button>
+                  <button type="button" class="gaze-option" data-value="Direct eye contact">Direct eye contact</button>
+                  <button type="button" class="gaze-option" data-value="Gazing into distance">Gazing into distance</button>
+                  <button type="button" class="gaze-option" data-value="Closed eyes">Closed eyes</button>
+                </div>
+              </div>
+
+              <!-- Pose -->
+              <div class="prompt-section">
+                <h3>Pose</h3>
+                <select id="pose">
+                  <option value="">Select a pose</option>
+                  <option value="standing">Standing</option>
+                  <option value="sitting">Sitting</option>
+                  <option value="walking">Walking</option>
+                  <option value="running">Running</option>
+                  <option value="Leaning against wall">Leaning against wall</option>
+                  <option value="Hands in pockets">Hands in pockets</option>
+                  <option value="Arms crossed">Arms crossed</option>
+                  <option value="Jumping in air">Jumping in air</option>
+                  <option value="Running forward">Running forward</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Prompt Builder -->
+          <div id="visual-prompt-section">
+            <h2 id="visual-prompt-header">Visual Prompt Builder</h2>
+            <div id="visual-prompt-container" style="display: none;">
+              <div class="visual-prompt-row">
+                <!-- Left Side: Subject's Clothing -->
+                <div class="visual-prompt-column">
+                  <div class="visual-options" id="clothing-options">
+                    <!-- Optimized Outfit Prompts -->
+                    <div class="visual-option" data-value="The subject is wearing a sleek, form-fitting cyberpunk leather jacket made of black glossy material, adorned with glowing neon blue accents along the seams and shoulders. The jacket features high-tech interfaces and embedded circuitry. Paired with this, they wear futuristic metallic boots with integrated LED lights and hydraulic components.">
+                      <img src="images/cyberpunk_outfit.jpg" alt="Cyberpunk Outfit">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is dressed in an elegant, floor-length Victorian-era gown made of rich burgundy velvet, featuring intricate white lace details along the sleeves and neckline. A tightly laced corset accentuates the waist, and the ensemble is completed with a matching wide-brimmed hat adorned with feathers and silk ribbons.">
+                      <img src="images/victorian_dress.jpg" alt="Victorian Dress">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is wearing rugged, weathered post-apocalyptic attire, including patched leather armor plates over tattered clothing. A worn-out gas mask with cracked lenses covers their face, and a utility belt laden with tools and scavenged items wraps around their waist. The clothing is dusty and shows signs of survival in a harsh wasteland.">
+                      <img src="images/post_apocalyptic.jpg" alt="Post-apocalyptic Attire">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is adorned in flowing, ethereal elven robes made of shimmering silks in hues of green and silver. Magical runes glow softly along the edges of the fabric, and crystals embedded in the attire emit a gentle light. The robes move gracefully as if caught in a perpetual breeze.">
+                      <img src="images/elven_robes.jpg" alt="Elven Robes">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is in a high-tech space suit crafted from advanced materials, featuring holographic displays on the forearms and a visor that shows vital statistics. The suit includes intricate circuitry patterns and an advanced life support system with glowing indicators.">
+                      <img src="images/space_suit.jpg" alt="Space Suit">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is dressed in a steampunk ensemble, featuring a tailored tailcoat made of deep brown fabric with brass buttons. Brass goggles with tinted lenses rest atop a matching top hat, and intricate clockwork accessories adorn their vest and belt. Gears and cogs are subtly integrated into the attire.">
+                      <img src="images/steampunk_outfit.jpg" alt="Steampunk Outfit">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is wearing traditional samurai armor crafted from lacquered plates with ornate gold details. The armor includes shoulder guards and a helmet adorned with a crest. They wield a finely crafted katana with an intricately designed hilt, standing in a poised stance.">
+                      <img src="images/samurai_armor.jpg" alt="Samurai Armor">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is in a glamorous 1920s flapper dress made of shimmering silver fabric, adorned with sequins and fringe that dances with movement. A feather boa drapes elegantly over their shoulders, and an art deco headpiece with gemstones completes the look.">
+                      <img src="images/flapper_dress.jpg" alt="Flapper Dress">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is wearing a futuristic nanotech bodysuit that seamlessly conforms to their body, composed of adaptive material that changes colors and textures dynamically. The suit displays flowing patterns that react to movement and environmental stimuli.">
+                      <img src="images/nanotech_suit.jpg" alt="Nanotech Bodysuit">
+                    </div>
+              
+                    <div class="visual-option" data-value="The subject is dressed in mystical shamanic attire, featuring cloaks made from animal pelts and adorned with feathers. Bone jewelry hangs from their neck and wrists, and ceremonial face paint with tribal patterns covers their face. They hold a staff topped with carved symbols.">
+                      <img src="images/shaman_attire.jpg" alt="Shaman Attire">
+                    </div>
+                  </div>
+                </div>
+                <!-- Right Side: Location -->
+                <div class="visual-prompt-column">
+                  <div class="visual-options" id="location-options">
+                    <!-- Optimized Location Prompts -->
+                    <div class="visual-option" data-value="The subject is standing in front of a bustling, neon-lit cyberpunk metropolis. Skyscrapers tower with holographic billboards projecting advertisements into the sky. Flying cars weave between buildings, and the streets below are filled with a diverse crowd of cyborgs and humans.">
+                      <img src="images/cyberpunk_city.jpg" alt="Cyberpunk City">
+                    </div>
+              
+                    <div class="visual-option" data-value="Set against ancient ruins overgrown with lush, bioluminescent plants that glow softly in the twilight. Crumbling stone structures hint at a lost civilization, and the air is filled with floating spores that emit a gentle light.">
+                      <img src="images/ancient_ruins.jpg" alt="Ancient Ruins">
+                    </div>
+              
+                    <div class="visual-option" data-value="In an expansive underwater city protected by a massive transparent dome. The cityscape features towering structures with organic designs, surrounded by exotic sea life like glowing jellyfish and schools of colorful fish swimming against a backdrop of deep blue water.">
+                      <img src="images/underwater_city.jpg" alt="Underwater City">
+                    </div>
+              
+                    <div class="visual-option" data-value="On floating islands suspended in the sky, connected by magical bridges made of light. Waterfalls cascade off the edges into the clouds below, and mythical creatures like dragons and griffins soar through the air amidst a radiant sunset.">
+                      <img src="images/floating_islands.jpg" alt="Floating Islands">
+                    </div>
+              
+                    <div class="visual-option" data-value="In a post-apocalyptic wasteland where the remnants of crumbling skyscrapers jut out of the desert sands. Mutated flora with twisted branches and luminescent leaves grow among the ruins, and the sky is tinged with hues of orange and gray from perpetual dust storms.">
+                      <img src="images/wasteland.jpg" alt="Post-apocalyptic Wasteland">
+                    </div>
+              
+                    <div class="visual-option" data-value="At a steampunk airship port bustling with activity. Intricate brass machinery and gears are visible everywhere, and steam billows from engines and pipes. Airships with balloon-like envelopes and ornate designs are docked, loading passengers and cargo.">
+                      <img src="images/airship_port.jpg" alt="Steampunk Airship Port">
+                    </div>
+              
+                    <div class="visual-option" data-value="In an alien marketplace on a distant planet, filled with bizarre life forms of various shapes and sizes. The architecture is otherworldly, with buildings made from crystalline structures and floating platforms. The atmosphere is vibrant with colorful lights and unfamiliar sounds.">
+                      <img src="images/alien_marketplace.jpg" alt="Alien Marketplace">
+                    </div>
+              
+                    <div class="visual-option" data-value="Inside an enchanted forest where giant bioluminescent mushrooms tower overhead, casting a soft glow over the surroundings. Fairy circles of luminous flowers dot the forest floor, and wisps of light float through the air among ancient, gnarled trees.">
+                      <img src="images/enchanted_forest.jpg" alt="Enchanted Forest">
+                    </div>
+              
+                    <div class="visual-option" data-value="Aboard a futuristic space station orbiting a massive gas giant with vividly colored rings stretching across the horizon. The station features sleek architecture with large observation windows, and spacecraft can be seen docking and departing in the background.">
+                      <img src="images/space_station.jpg" alt="Space Station">
+                    </div>
+              
+                    <div class="visual-option" data-value="Within an interdimensional nexus where multiple realities collide. The environment is a kaleidoscope of shifting colors and shapes, with fragments of different worlds intersecting—floating islands, cosmic phenomena, and abstract geometrical forms blend seamlessly.">
+                      <img src="images/interdimensional_nexus.jpg" alt="Interdimensional Nexus">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overige Prompt Builder -->
+          <div id="overige-prompt-section">
+            <div id="overige-prompt-container" style="display: none;">
+              <div class="overige-prompt-grid">
+                <div class="overige-container">
+                  <button type="button" class="overige-button" id="overige-button-1" data-prompt="A professional studio headshot of a man in a gray suit, arms crossed, with a confident but approachable expression. The background is a neutral gray with slight vignetting, and the lighting focuses on his face with a gentle softbox effect, creating a crisp, clear image. (photographic style)" style="background-image: url('images/style-headshot.webp');">Professional Headshot</button>
+                </div>
+                <div class="overige-container">
+                  <button type="button" class="overige-button" id="overige-button-2" data-prompt="A preppy gentleman wearing a navy blazer, crisp white shirt, and a silk tie, leaning casually against a vintage sports car in front of a country club. The sun casts soft shadows on his face, and the background features perfectly maintained golf greens. (photographic style)" style="background-image: url('images/style-classic.webp');">Classic</button>
+                </div>
+                <div class="overige-container">
+                  <button type="button" class="overige-button" id="overige-button-3" data-prompt="A cinematic portrait of a man dressed as a 1920s mobster in a pinstripe suit, fedora tilted slightly, and a cigar in hand. He stands in a dimly lit alley, the streetlights casting long shadows on the wet pavement. A vintage car is parked in the background. (vivid style) " style="background-image: url('images/style-mobster.webp');">Mobster</button>
+                </div>
+                <div class="overige-container">
+                  <button type="button" class="overige-button" id="overige-button-4" data-prompt="A mid-shot of a person in casual attire playing blackjack at a casino table, surrounded by other gamblers. The dealer is handing out cards, and a glass of whiskey sits on the table next to a stack of colorful chips. Bright casino lights and slot machines in the background." style="background-image: url('images/style-casino.webp');">Casino</button>
+                </div>
+                <div class="overige-container">
+                  <button type="button" class="overige-button" id="overige-button-5" data-prompt="An underwater scene of a vibrant coral reef teeming with colorful tropical fish. Shafts of sunlight penetrate the crystal-clear water, illuminating the diverse marine life and creating a magical, otherworldly atmosphere.">Underwater Reef</button>
+                </div>
+                <div class="overige-container">
+                  <button type="button" class="overige-button" id="overige-button-6" data-prompt="A cozy, rustic cabin interior during winter. A roaring fire in the stone fireplace casts a warm glow over the room, which features wooden beams, a plush armchair, and large windows showcasing a snowy forest outside.">Cozy Cabin Interior</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <!-- Advanced Settings Section -->
+          <div class="advanced-section">
+            <h2 class="collapsible">Advanced Settings</h2>
+            <div class="advanced-settings-content">
+              <!-- General Settings Section -->
+              <div class="advanced-inner-section">
+                <h3>General Settings</h3>
+                <!-- Seed -->
+                <div class="control-group">
+                  <label for="seed">Seed:</label>
+                  <input type="number" id="seed" name="seed" placeholder="Optional" data-tooltip="Zaad voor reproduceerbare resultaten. Laat leeg voor willekeurig.">
+                </div>
+
+                <!-- Aspect Ratio -->
+                <div class="control-group">
+                  <label for="aspect_ratio">Aspect Ratio:</label>
+                  <select id="aspect_ratio" name="aspect_ratio" data-tooltip="Verhouding van de gegenereerde afbeelding.">
+                    <option value="1:1">1:1</option>
+                    <option value="16:9">16:9</option>
+                    <option value="9:16">9:16</option>
+                    <option value="4:3">4:3</option>
+                    <option value="3:4">3:4</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Generation Parameters Section -->
+              <div class="advanced-inner-section">
+                <h3>Generation Parameters</h3>
+                <!-- Number of Inference Steps -->
+                <div class="control-group">
+                  <label for="num_inference_steps">Inference Steps:</label>
+                  <input type="number" id="num_inference_steps" name="num_inference_steps" min="1" max="50" value="28" data-tooltip="Aantal stappen voor het genereren. Meer stappen kunnen betere kwaliteit opleveren.">
+                </div>
+
+                <!-- Guidance Scale -->
+                <div class="control-group">
+                  <label for="guidance_scale">Guidance Scale:</label>
+                  <input type="range" id="guidance_scale" name="guidance_scale" min="0" max="10" step="0.1" value="3.5" data-tooltip="Hoe sterk de prompt wordt gevolgd. Hogere waarden volgen de prompt nauwkeuriger.">
+                </div>
+
+                <!-- Prompt Strength -->
+                <div class="control-group">
+                  <label for="prompt_strength">Prompt Strength:</label>
+                  <input type="range" id="prompt_strength" name="prompt_strength" min="0" max="1" step="0.1" value="0.8" data-tooltip="Sterkte van de prompt bij image-to-image. 1.0 vernietigt de originele afbeelding volledig.">
+                </div>
+              </div>
+
+              <!-- Output Settings Section -->
+              <div class="advanced-inner-section">
+                <h3>Output Settings</h3>
+                <!-- Output Format -->
+                <div class="control-group">
+                  <label for="output_format">Output Format:</label>
+                  <select id="output_format" name="output_format" data-tooltip="Formaat van de uitvoerafbeeldingen.">
+                    <option value="png">PNG</option>
+                    <option value="jpg">JPG</option>
+                  </select>
+                </div>
+
+                <!-- Output Quality -->
+                <div class="control-group">
+                  <label for="output_quality">Output Quality:</label>
+                  <input type="number" id="output_quality" name="output_quality" min="1" max="100" value="100" data-tooltip="Kwaliteit van de uitvoerafbeelding (1-100).">
+                </div>
+              </div>
+
+              <!-- LoRA Settings Section -->
+              <div class="advanced-inner-section">
+                <h3>LoRA Settings</h3>
+                <!-- LoRA Scale -->
+                <div class="control-group">
+                  <label for="lora_scale">LoRA Scale:</label>
+                  <input type="range" id="lora_scale" name="lora_scale" min="0" max="1" step="0.1" value="0.5" data-tooltip="Invloed van de LoRA gewichten.">
+                </div>
+              </div>
+
+              <!-- Additional Settings Section -->
+              <div class="advanced-inner-section">
+                <h3>Additional Settings</h3>
+                <!-- Disable Safety Checker -->
+                <div class="control-group">
+                  <label for="disable_safety_checker">Disable Safety Checker:</label>
+                  <input type="checkbox" id="disable_safety_checker" name="disable_safety_checker" data-tooltip="Schakel veiligheidscontrole uit voor afbeeldingen.">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HF LoRA Input and Toggle -->
+          <div class="control-group">
+            <label for="hf_lora">HF LoRA:</label>
+            <input type="text" id="hf_lora" name="hf_lora" placeholder="Enter HF LoRA">
+            <div class="toggle-switch">
+              <input type="checkbox" id="use_lora" name="use_lora">
+              <label for="use_lora">Use LoRA</label>
+            </div>
+          </div>
+          <button type="submit">Generate Image</button>
+        </div>
+      </form>
+    </div>
 
     <!-- Center Container -->
     <div class="center-container">
@@ -17,204 +401,35 @@
       </div>
       <div id="output"></div>
 
-      <!-- Generate Image Button -->
-      <button type="submit" form="generate-form">Generate Image</button>
-    </div>
-
-    <!-- Right Container -->
-    <div class="right-container">
-      <form id="generate-form">
-
-        <!-- Prompt Input Method -->
-        <div class="control-group">
-          <label>Prompt Input Method:</label>
-          <div class="toggle-container">
-            <input type="radio" id="manual-prompt" name="prompt-method" value="manual" checked>
-            <label for="manual-prompt">Manual</label>
-            <input type="radio" id="guided-prompt" name="prompt-method" value="guided">
-            <label for="guided-prompt">Guided</label>
-          </div>
-        </div>
-
-        <!-- Manual Prompt Input -->
-        <div class="control-group" id="manual-prompt-group">
-          <label for="prompt">Prompt:</label>
-          <input type="text" id="prompt" name="prompt" data-tooltip="Describe in detail what you want the image to depict.">
-        </div>
-
-        <!-- Guided Prompt Builder -->
-        <h2>Guided Prompt Builder</h2>
-        <div id="guided-prompt-container">
-          <!-- Scenes -->
-          <div class="prompt-section">
-            <h3>Scene</h3>
-            <select id="scene">
-              <option value="">Select a scene</option>
-              <option value="urban cityscape">Urban Cityscape</option>
-              <option value="beach sunset">Beach Sunset</option>
-              <option value="mountain landscape">Mountain Landscape</option>
-              <option value="forest path">Forest Path</option>
-            </select>
-          </div>
-
-          <!-- Camera Position -->
-          <div class="prompt-section">
-            <h3>Camera Position</h3>
-            <select id="camera-position">
-              <option value="">Select a camera position</option>
-              <option value="front view">Front View</option>
-              <option value="back view">Back View</option>
-              <option value="left side view">Left Side View</option>
-              <option value="right side view">Right Side View</option>
-              <option value="top view">Top View</option>
-            </select>
-          </div>
-
-          <!-- Clothes Section (Clickable) -->
-          <div class="prompt-section">
-            <h3 class="collapsible">Clothes</h3>
-            <div class="clothing-container">
-              <!-- Clothing Categories -->
-              <div class="clothing-category">
-                <label for="pants">Pants:</label>
-                <select id="pants">
-                  <option value="">Select pants</option>
-                  <option value="jeans">Jeans</option>
-                  <option value="shorts">Shorts</option>
-                  <option value="slacks">Slacks</option>
-                  <option value="skirt">Skirt</option>
-                </select>
-              </div>
-              <div class="clothing-category">
-                <label for="shirts">Shirts:</label>
-                <select id="shirts">
-                  <option value="">Select shirt</option>
-                  <option value="t-shirt">T-Shirt</option>
-                  <option value="blouse">Blouse</option>
-                  <option value="sweater">Sweater</option>
-                  <option value="jacket">Jacket</option>
-                </select>
-              </div>
-              <div class="clothing-category">
-                <label for="shoes">Shoes:</label>
-                <select id="shoes">
-                  <option value="">Select shoes</option>
-                  <option value="sneakers">Sneakers</option>
-                  <option value="boots">Boots</option>
-                  <option value="sandals">Sandals</option>
-                  <option value="dress shoes">Dress Shoes</option>
-                </select>
-              </div>
-              <div class="clothing-category">
-                <label for="headwear">Headwear:</label>
-                <select id="headwear">
-                  <option value="">Select headwear</option>
-                  <option value="baseball cap">Baseball Cap</option>
-                  <option value="beanie">Beanie</option>
-                  <option value="fedora">Fedora</option>
-                  <option value="helmet">Helmet</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gaze Direction -->
-          <div class="prompt-section">
-            <h3>Gaze Direction</h3>
-            <div class="gaze-options">
-              <!-- Gaze direction buttons -->
-              <button type="button" class="gaze-option" data-value="looking at camera">At Camera</button>
-              <button type="button" class="gaze-option" data-value="looking left">Looking Left</button>
-              <button type="button" class="gaze-option" data-value="looking right">Looking Right</button>
-              <button type="button" class="gaze-option" data-value="looking up">Looking Up</button>
-              <button type="button" class="gaze-option" data-value="looking down">Looking Down</button>
-            </div>
-          </div>
-
-          <!-- Pose -->
-          <div class="prompt-section">
-            <h3>Pose</h3>
-            <select id="pose">
-              <option value="">Select a pose</option>
-              <option value="standing">Standing</option>
-              <option value="sitting">Sitting</option>
-              <option value="walking">Walking</option>
-              <option value="running">Running</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Advanced Settings (Collapsible) -->
-        <h2 class="collapsible">Advanced Settings</h2>
-        <div class="advanced-settings">
-          <!-- Include any missing settings here -->
-          <!-- HF LoRA -->
-          <div class="control-group">
-            <label for="hf_lora">HF LoRA:</label>
-            <input type="text" id="hf_lora" name="hf_lora" value="zarxces/joris" data-tooltip="Enter the name of the Hugging Face LoRA module you want to use.">
-          </div>
-
-          <!-- Seed -->
-          <div class="control-group">
-            <label for="seed">Seed:</label>
-            <input type="number" id="seed" name="seed" placeholder="Optional" data-tooltip="Set a specific seed for reproducible results; leave blank for random.">
-          </div>
-
-          <!-- Number of Outputs -->
-          <div class="control-group">
-            <label for="num_outputs">Number of Outputs:</label>
-            <input type="number" id="num_outputs" name="num_outputs" min="1" max="4" value="1" data-tooltip="Select the number of images to generate (maximum 4).">
-          </div>
-
-          <!-- Inference Steps -->
-          <div class="control-group">
-            <label for="num_inference_steps">Number of Inference Steps:</label>
-            <input type="number" id="num_inference_steps" name="num_inference_steps" min="1" max="50" value="28" data-tooltip="Determines the quality and detail level; more steps may result in better quality but take longer.">
-          </div>
-
-          <!-- Guidance Scale -->
-          <div class="control-group">
-            <label for="guidance_scale">Guidance Scale:</label>
-            <input type="range" id="guidance_scale" name="guidance_scale" min="0" max="10" step="0.1" value="3.5" data-tooltip="Influences how accurately the output follows the prompt; higher values follow the prompt more strictly.">
-          </div>
-
-          <!-- Missing Settings from Left Container -->
-
-          <!-- Output Quality -->
-          <div class="control-group">
-            <label for="output_quality">Output Quality:</label>
-            <input type="number" id="output_quality" name="output_quality" min="1" max="10" value="5" data-tooltip="Adjusts the quality of the output image.">
-          </div>
-
-          <!-- LoRA Scale -->
-          <div class="control-group">
-            <label for="lora_scale">LoRA Scale:</label>
-            <input type="range" id="lora_scale" name="lora_scale" min="0" max="1" step="0.1" value="0.5" data-tooltip="Controls the influence of the LoRA.">
-          </div>
-
-          <!-- Negative Prompt -->
-          <div class="control-group">
-            <label for="negative_prompt">Negative Prompt:</label>
-            <input type="text" id="negative_prompt" name="negative_prompt" placeholder="Optional" data-tooltip="Specify aspects you want to exclude from the image.">
-          </div>
-
-          <!-- Scheduler -->
-          <div class="control-group">
-            <label for="scheduler">Scheduler:</label>
-            <select id="scheduler" name="scheduler" data-tooltip="Select the scheduler for the diffusion process.">
-              <option value="DDIM">DDIM</option>
-              <option value="K_EULER">K_EULER</option>
-              <option value="DPMSolverMultistep">DPMSolverMultistep</option>
-            </select>
-          </div>
-
-        </div>
-
-      </form>
-    </div>
+      <!-- Temporary content for testing -->
+      <p>This is the center container. Generated images will appear here.</p>
+    </div> <!-- End of main-container -->
 
   </div>
 
+<!-- Training Modal -->
+<div id="training-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span id="training-modal-close" class="close">&times;</span>
+    <h2>Train a New Model</h2>
+    <form id="training-form" enctype="multipart/form-data">
+      <!-- Drag and Drop Container -->
+      <div id="drop-area">
+        <p>Drag and drop images here or click to select files</p>
+        <input type="file" id="images-input" name="images" accept="image/*" multiple hidden />
+      </div>
+      <!-- Preview Container -->
+      <div id="preview-container"></div>
+      
+      <!-- TOK Input -->
+      <label for="trigger-word">Trigger Word (TOK):</label>
+      <input type="text" id="trigger-word" name="trigger_word" value="TOK" required>
+
+      <button type="submit">Start Training</button>
+    </form>
+  </div>
+</div>
+  <!-- Include your script.js before the closing body tag -->
   <script src="script.js"></script>
 </body>
 </html>
